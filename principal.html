@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de PDF</title>
+</head>
+<body>
+  <h1>Generador de PDF</h1>
+  <form id="formulario">
+    <label for="dni">DNI:</label>
+    <input type="text" id="dni" name="dni"><br>
+    <label for="apellidos">Apellidos:</label>
+    <input type="text" id="apellidos" name="apellidos"><br>
+    <label for="nombres">Nombres:</label>
+    <input type="text" id="nombres" name="nombres"><br>
+    <label for="genero">Género:</label>
+    <input type="text" id="genero" name="genero"><br>
+    <button type="button" onclick="generarPDF()">Descargar PDF</button>
+  </form>
+
+  <script>
+    function generarPDF() {
+      // Obtener los valores del formulario
+      const dni = document.getElementById('dni').value;
+      const apellidos = document.getElementById('apellidos').value;
+      const nombres = document.getElementById('nombres').value;
+      const genero = document.getElementById('genero').value;
+
+      // Formatear la información
+      const formattedText = `DNI: ${dni}\nApellidos: ${apellidos}\nNombres: ${nombres}\nGénero: ${genero}`;
+
+      // Generar el PDF
+      const pdf = new jsPDF();
+      pdf.text(20, 20, formattedText);
+      pdf.save('formulario.pdf');
+    }
+  </script>
+</body>
+</html>
