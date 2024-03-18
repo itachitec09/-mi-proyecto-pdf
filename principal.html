@@ -3,38 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generador de PDF</title>
+<title>Plantilla PDF</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
-  <h1>Generador de PDF</h1>
-  <form id="formulario">
-    <label for="dni">DNI:</label>
-    <input type="text" id="dni" name="dni"><br>
-    <label for="apellidos">Apellidos:</label>
-    <input type="text" id="apellidos" name="apellidos"><br>
-    <label for="nombres">Nombres:</label>
-    <input type="text" id="nombres" name="nombres"><br>
-    <label for="genero">Género:</label>
-    <input type="text" id="genero" name="genero"><br>
-    <button type="button" onclick="generarPDF()">Descargar PDF</button>
-  </form>
+  <h1>Plantilla PDF</h1>
+  <textarea id="textoPegado" rows="10" cols="50" placeholder="Pega el texto aquí..."></textarea>
+  <br>
+  <button id="descargarPDF">Descargar PDF</button>
 
   <script>
-    function generarPDF() {
-      // Obtener los valores del formulario
-      const dni = document.getElementById('dni').value;
-      const apellidos = document.getElementById('apellidos').value;
-      const nombres = document.getElementById('nombres').value;
-      const genero = document.getElementById('genero').value;
+    document.getElementById('descargarPDF').addEventListener('click', function() {
+      const textoPegado = document.getElementById('textoPegado').value;
+
+      // Extraer la información del texto pegado
+      const lines = textoPegado.split('\n');
+      let identificacion = '';
+      let apellidos = '';
+      let nombres = '';
+      let genero = '';
+
+      lines.forEach(line => {
+        if (line.includes('DNI')) {
+          identificacion = line.split(':')[1].trim();
+        } else if (line.includes('APELLIDOS')) {
+          apellidos = line.split(':')[1].trim();
+        } else if (line.includes('NOMBRES')) {
+          nombres = line.split(':')[1].trim();
+        } else if (line.includes('GENERO')) {
+          genero = line.split(':')[1].trim();
+        }
+      });
 
       // Formatear la información
-      const formattedText = `DNI: ${dni}\nApellidos: ${apellidos}\nNombres: ${nombres}\nGénero: ${genero}`;
+      const formattedText = `ind: ${identificacion}\nLast: ${apellidos}\nName: ${nombres}\nGg: ${genero}`;
 
-      // Generar el PDF
+      // Generar PDF
       const pdf = new jsPDF();
       pdf.text(20, 20, formattedText);
-      pdf.save('formulario.pdf');
-    }
+
+      // Intentar descargar el PDF
+      try {
+        pdf.save('formulario.pdf');
+      } catch (error) {
+        console.error('Error al intentar descargar el PDF:', error);
+      }
+    });
   </script>
 </body>
 </html>
