@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plantilla PDF</title>
+<title>Generador de PDF</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
-  <h1>Plantilla PDF</h1>
+  <h1>Generador de PDF</h1>
   <textarea id="textoPegado" rows="10" cols="50" placeholder="Pega el texto aquí..."></textarea>
   <br>
   <button id="descargarPDF">Descargar PDF</button>
@@ -41,13 +41,7 @@
       // Generar PDF
       const pdf = new jsPDF();
       pdf.text(20, 20, formattedText);
-
-      // Intentar descargar el PDF
-      try {
-        pdf.save('formulario.pdf');
-      } catch (error) {
-        console.error('Error al intentar descargar el PDF:', error);
-      }
+      pdf.save('formulario.pdf');
     });
   </script>
 </body>
